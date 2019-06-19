@@ -100,11 +100,9 @@ def genera_conjunto_de_datos_l_s(rango,dim,n_datos):
     
     y = np.sum(xn*wn, axis=1)+w0    
     
+    y = (y>=0).astype(int)
     
-    
-    
-    
-    
+    return xn, y
     
 
     
