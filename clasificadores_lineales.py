@@ -35,6 +35,7 @@
 # *****************************************************************************
 
 import numpy as np
+import random
 
 # IMPORTANTE: NO CAMBIAR EL NOMBRE NI A ESTE ARCHIVO NI A LAS CLASES Y MÉTODOS
 # QUE SE PIDEN
@@ -91,7 +92,7 @@ import numpy as np
 
 def genera_conjunto_de_datos_l_s(rango,dim,n_datos): 
     
-
+    np.random.uniform(-rango,rango,(n_datos,dim))
     
     
 def genera_conjunto_de_datos_n_l_s(rango,dim,size,prop_n_l_s=0.1):
