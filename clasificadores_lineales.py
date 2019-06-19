@@ -107,14 +107,9 @@ def genera_conjunto_de_datos_l_s(rango,dim,n_datos):
 
     
 def genera_conjunto_de_datos_n_l_s(rango,dim,size,prop_n_l_s=0.1):
+    pass
     
-    xn, y = genera_conjunto_de_datos_l_s(rango,dim,size)
 
-    for _ in range(0,int(size*prop_n_l_s)):
-        index = random.randint(0,size)
-        y[index] = int(not(y[index]))
-        
-    return xn, y
 
 
 
