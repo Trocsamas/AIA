@@ -34,6 +34,7 @@
 # DISPCIPLINARIAS que se pudieran llevar a cabo.
 # *****************************************************************************
 
+import numpy as np
 
 # IMPORTANTE: NO CAMBIAR EL NOMBRE NI A ESTE ARCHIVO NI A LAS CLASES Y MÉTODOS
 # QUE SE PIDEN
@@ -88,8 +89,12 @@
 #   ejemplo el 10%). La proporción se da con prop_n_l_s. 
 
 
+def genera_conjunto_de_datos_l_s(rango,dim,n_datos): 
 
-
+    
+    
+def genera_conjunto_de_datos_n_l_s(rango,dim,size,prop_n_l_s=0.1):
+    
 
 
 
