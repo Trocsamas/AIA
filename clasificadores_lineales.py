@@ -92,10 +92,26 @@ import random
 
 def genera_conjunto_de_datos_l_s(rango,dim,n_datos): 
     
-    np.random.uniform(-rango,rango,(n_datos,dim))
+    xn = np.random.uniform(-rango,rango,(n_datos,dim))
     
+    wn = np.random.uniform(-rango,rango,(1,dim))
+    
+    w0 = random.uniform(-1,1)
+    
+    h = np.
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
     
 def genera_conjunto_de_datos_n_l_s(rango,dim,size,prop_n_l_s=0.1):
+    pass
     
 
 
