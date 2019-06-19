@@ -322,21 +322,88 @@ class ClasificadorNoEntrenado(Exception): pass
 # Out[13]: 0.82
 # ----------------------------------------------------------------
 
+class Clasificador_Perceptron():
+    
+    def __init__(self,clases,normalizacion=False,
+                 rate=0.1,rate_decay=False,batch_tam=64):
+        
+        self.clases = clases
+        self.normalizacion = normalizacion
+        self.rate = rate
+        self.rate_decay = rate_decay
+        self.batch_tam
+    
+    def entrena(self,entr,clas_entr,n_epochs,
+                reiniciar_pesos=False,pesos_iniciales=None):
+        
+    def clasifica(self,ej):
+
+
+        
+        
+
+class Clasificador_RL_ML_Batch():
+    
+    def __init__(self,clases,normalizacion=False,
+                 rate=0.1,rate_decay=False,batch_tam=64):
+        
+        self.clases = clases
+        self.normalizacion = normalizacion
+        self.rate = rate
+        self.rate_decay = rate_decay
+        self.batch_tam
+    
+    def entrena(self,entr,clas_entr,n_epochs,
+                reiniciar_pesos=False,pesos_iniciales=None):
+   
+    def clasifica_prob(self,ej):
+        
+    def clasifica(self,ej):
+
+
+
+        
+
+class Clasificador_RL_ML_St():
+    
+    def __init__(self,clases,normalizacion=False,
+                 rate=0.1,rate_decay=False,batch_tam=64):
+        
+        self.clases = clases
+        self.normalizacion = normalizacion
+        self.rate = rate
+        self.rate_decay = rate_decay
+        self.batch_tam
+    
+    def entrena(self,entr,clas_entr,n_epochs,
+                reiniciar_pesos=False,pesos_iniciales=None):
+   
+    def clasifica_prob(self,ej):
+        
+    def clasifica(self,ej):
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
+class Clasificador_RL_ML_MiniBatch():
+    
+    def __init__(self,clases,normalizacion=False,
+                 rate=0.1,rate_decay=False,batch_tam=64):
+        
+        self.clases = clases
+        self.normalizacion = normalizacion
+        self.rate = rate
+        self.rate_decay = rate_decay
+        self.batch_tam
+    
+    def entrena(self,entr,clas_entr,n_epochs,
+                reiniciar_pesos=False,pesos_iniciales=None):
+   
+    def clasifica_prob(self,ej):
+        
+    def clasifica(self,ej):
 
 
 
