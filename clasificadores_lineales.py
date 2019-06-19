@@ -90,7 +90,7 @@ import numpy as np
 
 
 def genera_conjunto_de_datos_l_s(rango,dim,n_datos): 
-    #hooa caracola sf sjlkf
+    
 
     
     
