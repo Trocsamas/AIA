@@ -98,9 +98,7 @@ def genera_conjunto_de_datos_l_s(rango,dim,n_datos):
     
     w0 = random.uniform(-1,1)
     
-    h = np.
-    
-    
+    y = np.sum(xn*wn, axis=1)+w0    
     
     
     
