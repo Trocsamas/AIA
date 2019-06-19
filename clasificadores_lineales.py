@@ -7,13 +7,13 @@
 # --------------------------------------------------------------------------
 # Autor(a) del trabajo:
 #
-# APELLIDOS:
-# NOMBRE: 
+# APELLIDOS: Fernández García
+# NOMBRE: Jesús
 #
 # Segundo componente (si se trata de un grupo):
 #
-# APELLIDOS:
-# NOMBRE:
+# APELLIDOS: Sala Mascort
+# NOMBRE: Jaime Emilio
 # ----------------------------------------------------------------------------
 
 
