@@ -331,17 +331,28 @@ class Clasificador_Perceptron():
         self.normalizacion = normalizacion
         self.rate = rate
         self.rate_decay = rate_decay
+        self.pesos = None
     
     def entrena(self,entr,clas_entr,n_epochs,
                 reiniciar_pesos=False,pesos_iniciales=None):
         
-        if(not(pesos_iniciales)):
-            wn = np.random.uniform(-1,1,(1,len(entr[0])+1))   
-        else:
+           
+        if(pesos_iniciales):
             wn = pesos_iniciales
+        elif(reiniciar_pesos):
+            wn = np.random.uniform(-1,1,(1,len(entr[0])+1))
+        elif(self.pesos):
+            wn = self.pesos
+        else:
+            wn = np.random.uniform(-1,1,(1,len(entr[0])+1))
+            
         
-        for _ in range(0,n_epochs):
+        for n in range(0,n_epochs):
                         
+            if(self.rate_decay):
+                rate_n = (self.rate)*(1/(1+n))
+            else:
+                rate_n = self.rate
             
             ls_index = np.arange(0,len(entr))
             np.random.shuffle(ls_index)
@@ -350,8 +361,8 @@ class Clasificador_Perceptron():
                 
                 oum = (((np.sum(wn[:,1:]*entr[index]))+wn[:,:1])>=0).astype(int)
                 
-                wn[:,:1] = wn[:,:1] + self.rate*1*(clas_entr[index] - oum)
-                wn[:,1:] = wn[:,1:] + self.rate*entr[index]*(clas_entr[index] - oum)
+                wn[:,:1] = wn[:,:1] + rate_n*1*(clas_entr[index] - oum)
+                wn[:,1:] = wn[:,1:] + rate_n*entr[index]*(clas_entr[index] - oum)
         
         self.pesos = wn
         
@@ -359,9 +370,9 @@ class Clasificador_Perceptron():
         
         oum = (((np.sum(self.pesos[:,1:]*ej))+self.pesos[:,:1])>=0)
         if(oum):
-            res = self.clases[0]
-        else:
             res = self.clases[1]
+        else:
+            res = self.clases[0]
         return res
     
 class Clasificador_RL_ML_Batch(): 
