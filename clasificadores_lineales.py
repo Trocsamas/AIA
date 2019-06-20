@@ -325,40 +325,61 @@ class ClasificadorNoEntrenado(Exception): pass
 class Clasificador_Perceptron():
     
     def __init__(self,clases,normalizacion=False,
-                 rate=0.1,rate_decay=False,batch_tam=64):
+                 rate=0.1,rate_decay=False):
         
         self.clases = clases
         self.normalizacion = normalizacion
         self.rate = rate
         self.rate_decay = rate_decay
-        self.batch_tam
     
     def entrena(self,entr,clas_entr,n_epochs,
                 reiniciar_pesos=False,pesos_iniciales=None):
         
+        if(not(pesos_iniciales)):
+            wn = np.random.uniform(-1,1,(1,len(entr[0])+1))   
+        else:
+            wn = pesos_iniciales
+        
+        for _ in range(0,n_epochs):
+                        
+            
+            ls_index = np.arange(0,len(entr))
+            np.random.shuffle(ls_index)
+            
+            for index in ls_index:
+                
+                oum = (((np.sum(wn[:,1:]*entr[index]))+wn[:,:1])>=0).astype(int)
+                
+                wn[:,:1] = wn[:,:1] + self.rate*1*(clas_entr[index] - oum)
+                wn[:,1:] = wn[:,1:] + self.rate*entr[index]*(clas_entr[index] - oum)
+        
+        self.pesos = wn
+        
     def clasifica(self,ej):
-
-
         
-        
-
-class Clasificador_RL_ML_Batch():
+        oum = (((np.sum(self.pesos[:,1:]*ej))+self.pesos[:,:1])>=0)
+        if(oum):
+            res = self.clases[0]
+        else:
+            res = self.clases[1]
+        return res
+    
+class Clasificador_RL_ML_Batch(): 
     
     def __init__(self,clases,normalizacion=False,
-                 rate=0.1,rate_decay=False,batch_tam=64):
+                 rate=0.1,rate_decay=False):
         
         self.clases = clases
         self.normalizacion = normalizacion
         self.rate = rate
         self.rate_decay = rate_decay
-        self.batch_tam
     
     def entrena(self,entr,clas_entr,n_epochs,
-                reiniciar_pesos=False,pesos_iniciales=None):
+                reiniciar_pesos=False,pesos_iniciales=None):pass
    
-    def clasifica_prob(self,ej):
+    def clasifica_prob(self,ej):pass
         
-    def clasifica(self,ej):
+    def clasifica(self,ej): pass
 
 
 
@@ -367,20 +388,19 @@ class Clasificador_RL_ML_Batch():
 class Clasificador_RL_ML_St():
     
     def __init__(self,clases,normalizacion=False,
-                 rate=0.1,rate_decay=False,batch_tam=64):
+                 rate=0.1,rate_decay=False):
         
         self.clases = clases
         self.normalizacion = normalizacion
         self.rate = rate
         self.rate_decay = rate_decay
-        self.batch_tam
     
     def entrena(self,entr,clas_entr,n_epochs,
-                reiniciar_pesos=False,pesos_iniciales=None):
+                reiniciar_pesos=False,pesos_iniciales=None):pass
    
-    def clasifica_prob(self,ej):
+    def clasifica_prob(self,ej):pass
         
-    def clasifica(self,ej):
+    def clasifica(self,ej):pass
 
 
 
@@ -399,11 +419,11 @@ class Clasificador_RL_ML_MiniBatch():
         self.batch_tam
     
     def entrena(self,entr,clas_entr,n_epochs,
-                reiniciar_pesos=False,pesos_iniciales=None):
+                reiniciar_pesos=False,pesos_iniciales=None):pass
    
-    def clasifica_prob(self,ej):
+    def clasifica_prob(self,ej):pass
         
-    def clasifica(self,ej):
+    def clasifica(self,ej):pass
 
 
 
