@@ -336,15 +336,15 @@ class Clasificador_Perceptron():
     def entrena(self,entr,clas_entr,n_epochs,
                 reiniciar_pesos=False,pesos_iniciales=None):
         
-           
-        if(pesos_iniciales):
+        if(reiniciar_pesos):
+            wn = np.random.uniform(-1,1,(1,len(entr[0])+1))   
+        elif(pesos_iniciales):
             wn = pesos_iniciales
-        elif(reiniciar_pesos):
+        elif(type(self.pesos) is type(None)):
             wn = np.random.uniform(-1,1,(1,len(entr[0])+1))
-        elif(self.pesos):
-            wn = self.pesos
         else:
-            wn = np.random.uniform(-1,1,(1,len(entr[0])+1))
+            wn = self.pesos
+            
             
         
         for n in range(0,n_epochs):
