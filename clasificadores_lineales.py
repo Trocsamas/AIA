@@ -336,17 +336,21 @@ class Clasificador_Perceptron():
     def entrena(self,entr,clas_entr,n_epochs,
                 reiniciar_pesos=False,pesos_iniciales=None):
         
+        if(self.normalizacion==True):
+            self.mean = entr.mean(axis=0)
+            self.std = entr.std(axis=0)
+            an = (entr-self.mean)/self.std
+        else:
+            an = entr
         if(reiniciar_pesos):
-            wn = np.random.uniform(-1,1,(1,len(entr[0])+1))   
+            wn = np.random.uniform(-1,1,(1,len(an[0])+1))   
         elif(pesos_iniciales):
             wn = pesos_iniciales
         elif(type(self.pesos) is type(None)):
-            wn = np.random.uniform(-1,1,(1,len(entr[0])+1))
+            wn = np.random.uniform(-1,1,(1,len(an[0])+1))
         else:
             wn = self.pesos
             
-            
-        
         for n in range(0,n_epochs):
                         
             if(self.rate_decay):
@@ -354,21 +358,26 @@ class Clasificador_Perceptron():
             else:
                 rate_n = self.rate
             
-            ls_index = np.arange(0,len(entr))
+            ls_index = np.arange(0,len(an))
             np.random.shuffle(ls_index)
             
             for index in ls_index:
                 
-                oum = (((np.sum(wn[:,1:]*entr[index]))+wn[:,:1])>=0).astype(int)
+                oum = (((np.sum(wn[:,1:]*an[index]))+wn[:,:1])>=0).astype(int)
                 
                 wn[:,:1] = wn[:,:1] + rate_n*1*(clas_entr[index] - oum)
-                wn[:,1:] = wn[:,1:] + rate_n*entr[index]*(clas_entr[index] - oum)
+                wn[:,1:] = wn[:,1:] + rate_n*an[index]*(clas_entr[index] - oum)
         
         self.pesos = wn
         
     def clasifica(self,ej):
         
-        oum = (((np.sum(self.pesos[:,1:]*ej))+self.pesos[:,:1])>=0)
+        if(self.normalizacion==True):
+            an = (ej-self.mean)/self.std
+        else:
+            an = ej
+        
+        oum = (((np.sum(self.pesos[:,1:]*an))+self.pesos[:,:1])>=0)
         if(oum):
             res = self.clases[1]
         else:
