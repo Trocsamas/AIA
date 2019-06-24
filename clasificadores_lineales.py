@@ -36,6 +36,7 @@
 
 import numpy as np
 import random
+import math
 
 # IMPORTANTE: NO CAMBIAR EL NOMBRE NI A ESTE ARCHIVO NI A LAS CLASES Y MÉTODOS
 # QUE SE PIDEN
@@ -384,6 +385,9 @@ class Clasificador_Perceptron():
             res = self.clases[0]
         return res
     
+
+# ----------------------------------------------------------------
+
 class Clasificador_RL_ML_Batch(): 
     
     def __init__(self,clases,normalizacion=False,
@@ -393,18 +397,45 @@ class Clasificador_RL_ML_Batch():
         self.normalizacion = normalizacion
         self.rate = rate
         self.rate_decay = rate_decay
+        self.pesos = None
     
     def entrena(self,entr,clas_entr,n_epochs,
                 reiniciar_pesos=False,pesos_iniciales=None):pass
    
-    def clasifica_prob(self,ej):pass
+    def clasifica_prob(self,ej):
         
-    def clasifica(self,ej): pass
-
-
-
+        if(self.normalizacion==True):
+            an = (ej-self.mean)/self.std
+        else:
+            an = ej
         
+        w_por_x = ((np.sum(self.pesos[:,1:]*an))+self.pesos[:,:1])
+        
+        prob = (1/(1+math.exp(-w_por_x)))
+        
+        return prob
+        
+    def clasifica(self,ej):
+        
+        if(self.normalizacion==True):
+            an = (ej-self.mean)/self.std
+        else:
+            an = ej
+        
+        w_por_x = ((np.sum(self.pesos[:,1:]*an))+self.pesos[:,:1])
+        
+        prob = (1/(1+math.exp(-w_por_x)))
+        
+        if(prob > 0.5):
+            res = self.clases[1]
+        else:
+            res = self.clases[0]
+        
+        return res
 
+
+# ----------------------------------------------------------------
+        
 class Clasificador_RL_ML_St():
     
     def __init__(self,clases,normalizacion=False,
@@ -418,14 +449,38 @@ class Clasificador_RL_ML_St():
     def entrena(self,entr,clas_entr,n_epochs,
                 reiniciar_pesos=False,pesos_iniciales=None):pass
    
-    def clasifica_prob(self,ej):pass
+    def clasifica_prob(self,ej):
         
-    def clasifica(self,ej):pass
+        if(self.normalizacion==True):
+            an = (ej-self.mean)/self.std
+        else:
+            an = ej
+        
+        w_por_x = ((np.sum(self.pesos[:,1:]*an))+self.pesos[:,:1])
+        
+        prob = (1/(1+math.exp(-w_por_x)))
+        
+        return prob
+        
+    def clasifica(self,ej):
+        
+        if(self.normalizacion==True):
+            an = (ej-self.mean)/self.std
+        else:
+            an = ej
+        
+        w_por_x = ((np.sum(self.pesos[:,1:]*an))+self.pesos[:,:1])
+        
+        prob = (1/(1+math.exp(-w_por_x)))
+        
+        if(prob > 0.5):
+            res = self.clases[1]
+        else:
+            res = self.clases[0]
+        
+        return res
 
-
-
-
-
+# ----------------------------------------------------------------
 
 class Clasificador_RL_ML_MiniBatch():
     
@@ -441,19 +496,39 @@ class Clasificador_RL_ML_MiniBatch():
     def entrena(self,entr,clas_entr,n_epochs,
                 reiniciar_pesos=False,pesos_iniciales=None):pass
    
-    def clasifica_prob(self,ej):pass
+    def clasifica_prob(self,ej):
         
-    def clasifica(self,ej):pass
-
-
+        if(self.normalizacion==True):
+            an = (ej-self.mean)/self.std
+        else:
+            an = ej
+        
+        w_por_x = ((np.sum(self.pesos[:,1:]*an))+self.pesos[:,:1])
+        
+        prob = (1/(1+math.exp(-w_por_x)))
+        
+        return prob
+        
+    def clasifica(self,ej):
+        
+        if(self.normalizacion==True):
+            an = (ej-self.mean)/self.std
+        else:
+            an = ej
+        
+        w_por_x = ((np.sum(self.pesos[:,1:]*an))+self.pesos[:,:1])
+        
+        prob = (1/(1+math.exp(-w_por_x)))
+        
+        if(prob > 0.5):
+            res = self.clases[1]
+        else:
+            res = self.clases[0]
+        
+        return res
 
 
     
-
-    
-
-
-
 
 # --------------------------
 # I.3. Curvas de aprendizaje
