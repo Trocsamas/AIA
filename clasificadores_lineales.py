@@ -400,7 +400,44 @@ class Clasificador_RL_ML_Batch():
         self.pesos = None
     
     def entrena(self,entr,clas_entr,n_epochs,
-                reiniciar_pesos=False,pesos_iniciales=None):pass
+                reiniciar_pesos=False,pesos_iniciales=None):
+        
+        if(self.normalizacion==True):
+            self.mean = entr.mean(axis=0)
+            self.std = entr.std(axis=0)
+            an = (entr-self.mean)/self.std
+        else:
+            an = entr
+        if(reiniciar_pesos):
+            wn = np.random.uniform(-1,1,(1,len(an[0])+1))   
+        elif(pesos_iniciales):
+            wn = pesos_iniciales
+        elif(type(self.pesos) is type(None)):
+            wn = np.random.uniform(-1,1,(1,len(an[0])+1))
+        else:
+            wn = self.pesos
+        
+        for n in range(0,n_epochs):
+                        
+            if(self.rate_decay):
+                rate_n = (self.rate)*(1/(1+n))
+            else:
+                rate_n = self.rate
+            
+            ls_index = np.arange(0,len(an))
+            np.random.shuffle(ls_index)
+            
+            '''for index in ls_index:
+                
+                w_por_x = ((np.sum(wn[:,1:]*an[index]))+wn[:,:1])
+                prob = 1/(1+math.exp(-w_por_x))
+                
+                wn[:,:1] = wn[:,:1] + rate_n*sum((clas_entr[index] - prob)*1)
+                wn[:,1:] = wn[:,1:] + rate_n*sum()'''
+        
+        self.pesos = wn
+        
+                
    
     def clasifica_prob(self,ej):
         
@@ -445,9 +482,45 @@ class Clasificador_RL_ML_St():
         self.normalizacion = normalizacion
         self.rate = rate
         self.rate_decay = rate_decay
+        self.pesos = None
     
     def entrena(self,entr,clas_entr,n_epochs,
-                reiniciar_pesos=False,pesos_iniciales=None):pass
+                reiniciar_pesos=False,pesos_iniciales=None):
+        
+        if(self.normalizacion==True):
+            self.mean = entr.mean(axis=0)
+            self.std = entr.std(axis=0)
+            an = (entr-self.mean)/self.std
+        else:
+            an = entr
+        if(reiniciar_pesos):
+            wn = np.random.uniform(-1,1,(1,len(an[0])+1))   
+        elif(pesos_iniciales):
+            wn = pesos_iniciales
+        elif(type(self.pesos) is type(None)):
+            wn = np.random.uniform(-1,1,(1,len(an[0])+1))
+        else:
+            wn = self.pesos
+        
+        for n in range(0,n_epochs):
+                        
+            if(self.rate_decay):
+                rate_n = (self.rate)*(1/(1+n))
+            else:
+                rate_n = self.rate
+            
+            ls_index = np.arange(0,len(an))
+            np.random.shuffle(ls_index)
+            
+            for index in ls_index:
+                
+                w_por_x = ((np.sum(wn[:,1:]*an[index]))+wn[:,:1])
+                prob = 1/(1+math.exp(-w_por_x))
+                
+                wn[:,:1] = wn[:,:1] + rate_n*(clas_entr[index] - prob)
+                wn[:,1:] = wn[:,1:] + rate_n*an[index]*(clas_entr[index] - prob)
+        
+        self.pesos = wn
    
     def clasifica_prob(self,ej):
         
@@ -492,9 +565,35 @@ class Clasificador_RL_ML_MiniBatch():
         self.rate = rate
         self.rate_decay = rate_decay
         self.batch_tam
+        self.pesos = None
     
     def entrena(self,entr,clas_entr,n_epochs,
-                reiniciar_pesos=False,pesos_iniciales=None):pass
+                reiniciar_pesos=False,pesos_iniciales=None):
+        
+        if(self.normalizacion==True):
+            self.mean = entr.mean(axis=0)
+            self.std = entr.std(axis=0)
+            an = (entr-self.mean)/self.std
+        else:
+            an = entr
+        if(reiniciar_pesos):
+            wn = np.random.uniform(-1,1,(1,len(an[0])+1))   
+        elif(pesos_iniciales):
+            wn = pesos_iniciales
+        elif(type(self.pesos) is type(None)):
+            wn = np.random.uniform(-1,1,(1,len(an[0])+1))
+        else:
+            wn = self.pesos
+        
+        for n in range(0,n_epochs):
+                        
+            if(self.rate_decay):
+                rate_n = (self.rate)*(1/(1+n))
+            else:
+                rate_n = self.rate
+            
+            ls_index = np.arange(0,len(an))
+            np.random.shuffle(ls_index)
    
     def clasifica_prob(self,ej):
         
