@@ -333,16 +333,22 @@ class Clasificador_Perceptron():
         self.rate = rate
         self.rate_decay = rate_decay
         self.pesos = None
+        self.mean = None
     
     def entrena(self,entr,clas_entr,n_epochs,
                 reiniciar_pesos=False,pesos_iniciales=None):
-        
+        #Normalizacion, se crean atributos de clase para reusar
+        #los valores en la clasificacion
         if(self.normalizacion==True):
-            self.mean = entr.mean(axis=0)
-            self.std = entr.std(axis=0)
+            #Comprobamos que haya una normalizacion anterior 
+            if( (type(self.mean) is type(None)) or reiniciar_pesos):
+                self.mean = entr.mean(axis=0)
+                self.std = entr.std(axis=0)
             an = (entr-self.mean)/self.std
         else:
             an = entr
+            
+        #Condiciones de entrenamieto
         if(reiniciar_pesos):
             wn = np.random.uniform(-1,1,(1,len(an[0])+1))   
         elif(pesos_iniciales):
@@ -353,19 +359,17 @@ class Clasificador_Perceptron():
             wn = self.pesos
             
         for n in range(0,n_epochs):
-                        
+            #Rate Decay
             if(self.rate_decay):
                 rate_n = (self.rate)*(1/(1+n))
             else:
                 rate_n = self.rate
-            
+                
+            #wn = wn+n*an[random index each epoch](y-o)
             ls_index = np.arange(0,len(an))
-            np.random.shuffle(ls_index)
-            
+            np.random.shuffle(ls_index) 
             for index in ls_index:
-                
-                oum = (((np.sum(wn[:,1:]*an[index]))+wn[:,:1])>=0).astype(int)
-                
+                oum = (((np.sum(wn[:,1:]*an[index]))+wn[:,:1])>=0).astype(int)   
                 wn[:,:1] = wn[:,:1] + rate_n*1*(clas_entr[index] - oum)
                 wn[:,1:] = wn[:,1:] + rate_n*an[index]*(clas_entr[index] - oum)
         
@@ -373,11 +377,12 @@ class Clasificador_Perceptron():
         
     def clasifica(self,ej):
         
+        #Normalizacion con los valores del entrenamiento
         if(self.normalizacion==True):
             an = (ej-self.mean)/self.std
         else:
             an = ej
-        
+            
         oum = (((np.sum(self.pesos[:,1:]*an))+self.pesos[:,:1])>=0)
         if(oum):
             res = self.clases[1]
@@ -398,16 +403,24 @@ class Clasificador_RL_ML_Batch():
         self.rate = rate
         self.rate_decay = rate_decay
         self.pesos = None
+        self.mean = None
+
     
     def entrena(self,entr,clas_entr,n_epochs,
                 reiniciar_pesos=False,pesos_iniciales=None):
         
+        #Normalizacion, se crean atributos de clase para reusar
+        #los valores en la clasificacion
         if(self.normalizacion==True):
-            self.mean = entr.mean(axis=0)
-            self.std = entr.std(axis=0)
+            #Comprobamos que haya una normalizacion anterior 
+            if( (type(self.mean) is type(None)) or reiniciar_pesos):
+                self.mean = entr.mean(axis=0)
+                self.std = entr.std(axis=0)
             an = (entr-self.mean)/self.std
         else:
             an = entr
+            
+        #Condiciones de entrenamieto
         if(reiniciar_pesos):
             wn = np.random.uniform(-1,1,(1,len(an[0])+1))   
         elif(pesos_iniciales):
@@ -483,16 +496,24 @@ class Clasificador_RL_ML_St():
         self.rate = rate
         self.rate_decay = rate_decay
         self.pesos = None
-    
+        self.mean = None
+
+
     def entrena(self,entr,clas_entr,n_epochs,
                 reiniciar_pesos=False,pesos_iniciales=None):
         
+        #Normalizacion, se crean atributos de clase para reusar
+        #los valores en la clasificacion
         if(self.normalizacion==True):
-            self.mean = entr.mean(axis=0)
-            self.std = entr.std(axis=0)
+            #Comprobamos que haya una normalizacion anterior 
+            if( (type(self.mean) is type(None)) or reiniciar_pesos):
+                self.mean = entr.mean(axis=0)
+                self.std = entr.std(axis=0)
             an = (entr-self.mean)/self.std
         else:
             an = entr
+        
+        #Condiciones de entrenamieto            
         if(reiniciar_pesos):
             wn = np.random.uniform(-1,1,(1,len(an[0])+1))   
         elif(pesos_iniciales):
@@ -566,16 +587,24 @@ class Clasificador_RL_ML_MiniBatch():
         self.rate_decay = rate_decay
         self.batch_tam
         self.pesos = None
+        self.mean = None
+
     
     def entrena(self,entr,clas_entr,n_epochs,
                 reiniciar_pesos=False,pesos_iniciales=None):
         
+        #Normalizacion, se crean atributos de clase para reusar
+        #los valores en la clasificacion
         if(self.normalizacion==True):
-            self.mean = entr.mean(axis=0)
-            self.std = entr.std(axis=0)
+            #Comprobamos que haya una normalizacion anterior 
+            if( (type(self.mean) is type(None)) or reiniciar_pesos):
+                self.mean = entr.mean(axis=0)
+                self.std = entr.std(axis=0)
             an = (entr-self.mean)/self.std
         else:
             an = entr
+            
+        #Condiciones de entrenamieto            
         if(reiniciar_pesos):
             wn = np.random.uniform(-1,1,(1,len(an[0])+1))   
         elif(pesos_iniciales):
