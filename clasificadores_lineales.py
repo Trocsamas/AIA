@@ -783,6 +783,22 @@ import matplotlib.pyplot as plt
 # ----------------------------------------------------------------
 
 
+class RegresionLogisticaOvR():
+    
+    def __init__(self,class_clasif,clases,
+                 rate=0.1,rate_decay=False,batch_tam=64):
+        
+        pass
+    
+    def entrena(self,entr,clas_entr,n_epochs,
+                 reiniciar_pesos=False,pesos_iniciales=None):
+         
+         pass
+     
+    def clasifica(self,ej):
+        
+        pass
+
 
 # ===========================================
 # PARTE III: APLICACIÓN DE LOS CLASIFICADORES
@@ -821,7 +837,14 @@ import matplotlib.pyplot as plt
 # conjunto de datos X cuya clasificación conocida viene dada por Y. Se deja
 # libre el formato para la impresión de la matriz de confusión. 
 
+def rendimiento(clf,X,Y):
+    return sum(clf.clasifica(x) == y for x,y in zip(X,Y))/len(Y)
 
+def matriz_confusion(clf,X,Y):
+    
+    for i in range(0,len(Y)):
+        
+        aciertos+"i" = sum(clf.clasifica(x) == y for x,y in zip(X,Y))
 
 # ----------------------------------
 # III.2 Aplicando los clasificadores
