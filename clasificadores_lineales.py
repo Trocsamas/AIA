@@ -437,16 +437,16 @@ class Clasificador_RL_ML_Batch():
             else:
                 rate_n = self.rate
             
-            ls_index = np.arange(0,len(an))
-            np.random.shuffle(ls_index)
+            #wn <- wn + rate*sum((y+funcionprob(on))*x)
+            #on = sum(pesos*entr) me da las sumas de cada peso por ejemplo
+            #np.concatenate((a, b),axis=1) concatena a y b en la ultima columna
+            #para añadir una lista de 1 al principio de todos los ejemplos para el w0
             
-            '''for index in ls_index:
-                
-                w_por_x = ((np.sum(wn[:,1:]*an[index]))+wn[:,:1])
-                prob = 1/(1+math.exp(-w_por_x))
-                
-                wn[:,:1] = wn[:,:1] + rate_n*sum((clas_entr[index] - prob)*1)
-                wn[:,1:] = wn[:,1:] + rate_n*sum()'''
+            on = np.sum(wn*np.concatenate((np.ones((len(an),1)),an),axis=1),axis=1)
+            probn = 1/(1+np.power(math.e, -on))
+            wn = wn + rate_n*np.sum((clas_entr-probn)*an)
+            
+
         
         self.pesos = wn
         
