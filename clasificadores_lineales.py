@@ -444,6 +444,7 @@ class Clasificador_RL_ML_Batch():
             
             on = np.sum(wn*np.concatenate((np.ones((len(an),1)),an),axis=1),axis=1)
             probn = 1/(1+np.power(math.e, -on))
+            
             wn = wn + rate_n*np.sum((clas_entr-probn)*an)
             
 
@@ -704,13 +705,43 @@ import matplotlib.pyplot as plt
 # verosimilitud,etc.) que vamos obteniendo en cada epoch. Esta funcionalidad
 # extra puede enlentecer algo el proceso de entrenamiento y es conveniente
 # quitarla una vez se realice este apartado.
-
-
-
-
-
-
-
+def graficaerroresporepoch(clasificador,clases,entr,
+                           clas_entr,n_epochs,
+                           rate=0.1,
+                           rate_decay=False,
+                           normalizacion=False,
+                           batch=64):
+    
+    if (clasificador is Clasificador_RL_ML_MiniBatch):
+        clas=Clasificador_RL_ML_MiniBatch(clases,normalizacion=normalizacion,
+                                    rate=rate,rate_decay=rate_decay,batch_tam=batch)
+        
+    elif (clasificador is Clasificador_Perceptron):
+        clas=Clasificador_Perceptron(clases,normalizacion=normalizacion,
+                                    rate=rate,rate_decay=rate_decay)
+        
+    elif (clasificador is Clasificador_RL_ML_Batch):
+        clas=Clasificador_RL_ML_Batch(clases,normalizacion=normalizacion,
+                                    rate=rate,rate_decay=rate_decay)
+        
+    elif (clasificador is Clasificador_RL_ML_St):
+        clas=Clasificador_RL_ML_St(clases,normalizacion=normalizacion,
+                                    rate=rate,rate_decay=rate_decay)
+    
+    errores = []
+    for n in range(1,n_epochs+1):
+            if(rate_decay):
+                clas.rate = rate*(1/(1+n))
+            
+            clas.entrena(clas_entr=clas_entr,entr=entr,n_epochs=1)
+            error = 1 - rendimiento(clas,entr,clas_entr)
+            errores.append(error)
+        
+    
+    plt.plot(range(1,len(errores)+1),errores,marker='o')
+    plt.xlabel('Epochs')
+    plt.ylabel('Porcentaje de errores')
+    plt.show()
 
 
 
