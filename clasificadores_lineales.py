@@ -819,12 +819,42 @@ class RegresionLogisticaOvR():
     def __init__(self,class_clasif,clases,
                  rate=0.1,rate_decay=False,batch_tam=64):
         
-        pass
+        self.clasificador = class_clasif
+        self.clases = clases
+        self.rate = rate
+        self.rate_decay = rate_decay
+        self.batch_tam = batch_tam
+        self.pesos = []
     
     def entrena(self,entr,clas_entr,n_epochs,
                  reiniciar_pesos=False,pesos_iniciales=None):
-         
-         pass
+        
+        clasifs = dict()
+        
+#----------Genero el diccionario con la clasificacion de cada clase------------        
+        
+        for c in range(0,len(self.clases)):
+        
+            copia = clas_entr.copy()
+             
+            for x in range(0,len(copia)):
+                
+                if(copia[x] == self.clases[c]):
+                    copia[x] = 1
+                else:
+                    copia[x] = 0
+            
+            clasifs['clase'+str(c)] = copia
+        
+#------------------------------------------------------------------------------       
+        for clasifi in clasifs.values():
+            if(self.clasificador == Clasificador_RL_ML_MiniBatch):
+                pass
+            else:
+                pass
+            self.pesos.append()
+                
+                
      
     def clasifica(self,ej):
         
@@ -874,8 +904,8 @@ def rendimiento(clf,X,Y):
 def matriz_confusion(clf,X,Y):
     
     for i in range(0,len(Y)):
-        
-        aciertos+"i" = sum(clf.clasifica(x) == y for x,y in zip(X,Y))
+        pass
+        #aciertos+"i" = sum(clf.clasifica(x) == y for x,y in zip(X,Y))
 
 # ----------------------------------
 # III.2 Aplicando los clasificadores
