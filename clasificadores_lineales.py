@@ -846,13 +846,23 @@ class RegresionLogisticaOvR():
             
             clasifs['clase'+str(c)] = copia
         
-#------------------------------------------------------------------------------       
+#----------------------Genero los pesos para cada clase------------------------
+            
         for clasifi in clasifs.values():
             if(self.clasificador == Clasificador_RL_ML_MiniBatch):
-                pass
+                
+                clas_rlml = self.clasificador([0,1],self.rate,
+                                              self.rate_decay,self.batch_tam)
             else:
-                pass
-            self.pesos.append()
+                clas_rlml = self.clasificador([0,1],self.rate,self.rate_decay)
+            
+            
+            print(entr)
+            print(clasifi)
+            #wn = clas_rlml.entrena(entr,clasifi,n_epochs,reiniciar_pesos
+                              #,pesos_iniciales)
+            
+            #self.pesos.append(wn)
                 
                 
      
