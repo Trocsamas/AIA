@@ -444,8 +444,9 @@ class Clasificador_RL_ML_Batch():
             
             on = np.sum(wn*np.concatenate((np.ones((len(an),1)),an),axis=1),axis=1)
             probn = 1/(1+np.power(math.e, -on))
+            en = (clas_entr-probn)
             
-            wn = wn + rate_n*np.sum((clas_entr-probn)*an)
+            wn = wn + rate_n*np.sum(en.reshape(len(en),1)*an)
             
 
         
@@ -927,7 +928,8 @@ def matriz_confusion(clf,X,Y):
     for i in range(0,len(clf.clases)):
         for j in range(0,len(clf.clases)):
             
-            valores[i][j] = sum(1 for x,y in zip(X,Y) if clf.clasifica(x) == clf.clases[i] and y == clf.clases[j])
+            valores[i][j] = sum(1 for x,y in zip(X,Y) 
+                if clf.clasifica(x) == clf.clases[i] and y == clf.clases[j])
 
     
     def representa(asig):
