@@ -824,7 +824,7 @@ class RegresionLogisticaOvR():
         self.rate = rate
         self.rate_decay = rate_decay
         self.batch_tam = batch_tam
-        self.pesos = []
+        self.clas_instanciadas = dict()
     
     def entrena(self,entr,clas_entr,n_epochs,
                  reiniciar_pesos=False,pesos_iniciales=None):
@@ -847,28 +847,33 @@ class RegresionLogisticaOvR():
             clasifs['clase'+str(c)] = copia
         
 #----------------------Genero los pesos para cada clase------------------------
+        for i in range(0,len(self.clases)):
             
-        for clasifi in clasifs.values():
             if(self.clasificador == Clasificador_RL_ML_MiniBatch):
                 
-                clas_rlml = self.clasificador([0,1],self.rate,
+                self.clas_instanciadas['clase'+str(i)] = self.clasificador([0,1],self.rate,
                                               self.rate_decay,self.batch_tam)
             else:
-                clas_rlml = self.clasificador([0,1],self.rate,self.rate_decay)
+                self.clas_instanciadas['clase'+str(i)] = self.clasificador([0,1]
+                                                    ,self.rate,self.rate_decay)
             
-            
-            print(entr)
-            print(clasifi)
-            #wn = clas_rlml.entrena(entr,clasifi,n_epochs,reiniciar_pesos
-                              #,pesos_iniciales)
-            
-            #self.pesos.append(wn)
+            print(clasifs['clase'+str(i)])
+            #self.clas_instanciadas['clase'+str(i)].entrena(entr,clasifs['clase'+str(i)]
+                                   #,n_epochs,reiniciar_pesos,pesos_iniciales)
                 
                 
      
     def clasifica(self,ej):
         
-        pass
+        prob = []
+        
+        for i in range(0,len(self.clases)):
+            prob.append(self.clas_instanciadas['clase'+str(i)].clasifica(ej))
+        
+        prob_max = max(prob)
+        
+        return self.clases[prob.index(prob_max)]
+            
 
 
 # ===========================================
@@ -911,12 +916,36 @@ class RegresionLogisticaOvR():
 def rendimiento(clf,X,Y):
     return sum(clf.clasifica(x) == y for x,y in zip(X,Y))/len(Y)
 
+
+
+
 def matriz_confusion(clf,X,Y):
     
-    for i in range(0,len(Y)):
-        pass
-        #aciertos+"i" = sum(clf.clasifica(x) == y for x,y in zip(X,Y))
+    valores = np.zeros((len(clf.clases),len(clf.clases)))
+    
+    
+    for i in range(0,len(clf.clases)):
+        for j in range(0,len(clf.clases)):
+            
+            valores[i][j] = sum(1 for x,y in zip(X,Y) if clf.clasifica(x) == clf.clases[i] and y == clf.clases[j])
 
+    
+    def representa(asig):
+        
+        def cadena_fila(i,asig):
+            cadena = "| "
+            for j in range(0,len(clf.clases)):
+                accion = str(asig[i][j])
+                cadena += accion
+                cadena += " | "
+            return cadena
+        
+        print("-"*7*len(clf.clases))
+        for i in range(0,len(clf.clases)):
+            print(cadena_fila(i,asig))
+            print("-"*7*len(clf.clases))
+
+    representa(valores)
 # ----------------------------------
 # III.2 Aplicando los clasificadores
 # ----------------------------------
