@@ -587,7 +587,7 @@ class Clasificador_RL_ML_MiniBatch():
         self.normalizacion = normalizacion
         self.rate = rate
         self.rate_decay = rate_decay
-        self.batch_tam
+        self.batch_tam = batch_tam
         self.pesos = None
         self.mean = None
 
@@ -625,6 +625,22 @@ class Clasificador_RL_ML_MiniBatch():
             
             ls_index = np.arange(0,len(an))
             np.random.shuffle(ls_index)
+            
+            for n in range(0,math.ceil(len(entr)/self.batch_tam)):
+                batch = entr[self.batch_tam*n:self.batch_tam*(n+1)]
+                clas_batch = clas_entr[self.batch_tam*n:self.batch_tam*(n+1)]
+            
+                on = np.sum(wn*np.concatenate((np.ones((len(batch),1)),batch),axis=1),axis=1)
+                probn = 1/(1+np.power(math.e, -on))
+                en = (clas_batch-probn)
+                
+                wn = wn + rate_n*np.sum((en.reshape(len(en),1)*np.concatenate((np.ones((len(batch),1)),batch),axis=1)),axis=0)
+        self.pesos = wn
+
+            
+            
+            
+            
    
     def clasifica_prob(self,ej):
         
