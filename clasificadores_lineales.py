@@ -1195,45 +1195,54 @@ def votos_clasi(clasi):
 
 # ----------------------------------------------------------------
 
-from votos import *
+#from votos import *
+#
+#y = votos_clasi(votos_entr_clas)
+#
+#prob_votos = Clasificador_RL_ML_Batch(votos_clases)
+#
+#prob_votos.entrena(votos_entr,y,400)
+#
+#rendimiento(prob_votos,votos_test,votos_test_clas)
+#Out[16]: Out[8]: 0.896551724137931
+#
+#
+#
+#
+#prob_votos = Clasificador_RL_ML_St(votos_clases)
+#
+#prob_votos.entrena(votos_entr,y,500)
+#
+#rendimiento(prob_votos,votos_test,votos_test_clas)
+#Out[19]: 0.9080459770114943
+    
 
-y = votos_clasi(votos_entr_clas)
-
-prob_votos = Clasificador_RL_ML_Batch(votos_clases)
-
-prob_votos.entrena(votos_entr,y,400)
-
-rendimiento(prob_votos,votos_test,votos_test_clas)
-Out[16]: 0.9080459770114943
 
 
 
-
-prob_votos = Clasificador_RL_ML_St(votos_clases)
-
-prob_votos.entrena(votos_entr,y,500)
-
-rendimiento(prob_votos,votos_test,votos_test_clas)
-Out[19]: 0.9080459770114943
+#prob_votos = Clasificador_RL_ML_St(votos_clases)
+#
+#prob_votos.entrena(votos_entr,y,500)
+#
+#rendimiento(prob_votos,votos_test,votos_test_clas)
+#Out[17]: 0.9080459770114943
 
 # ----------------------------------------------------------------
 
-from sklearn.datasets import load_breast_cancer
-
-cancer = load_breast_cancer()
-
-from sklearn.model_selection import train_test_split
-
-X_train, X_test, y_train, y_test = train_test_split(cancer.data, cancer.target, stratify=cancer.target, random_state=0)
-
-prob_cancer = Clasificador_RL_ML_Batch([0,1],normalizacion = True)
-
-prob_cancer.entrena(X_train,y_train,4000)
-
-rendimiento(prob_cancer,X_test,y_test)
-Out[40]: 0.9300699300699301
-
-
+#from sklearn.datasets import load_breast_cancer
+#
+#cancer = load_breast_cancer()
+#
+#from sklearn.model_selection import train_test_split
+#
+#X_train, X_test, y_train, y_test = train_test_split(cancer.data, cancer.target, stratify=cancer.target, random_state=0)
+#
+#prob_cancer = Clasificador_RL_ML_Batch([0,1],normalizacion = True)
+#
+#prob_cancer.entrena(X_train,y_train,4000)
+#
+#rendimiento(prob_cancer,X_test,y_test)
+#Out[40]: 0.9300699300699301
 
 
 
@@ -1241,12 +1250,14 @@ Out[40]: 0.9300699300699301
 
 
 
-prob_cancer = Clasificador_RL_ML_MiniBatch([0,1],normalizacion = True, batch_tam= 30)
 
-prob_cancer.entrena(X_train,y_train,4000)
 
-rendimiento(prob_cancer,X_test,y_test)
-Out[44]: 0.34965034965034963
+#prob_cancer = Clasificador_RL_ML_MiniBatch([0,1],normalizacion = True, batch_tam= 30)
+#
+#prob_cancer.entrena(X_train,y_train,4000)
+#
+#rendimiento(prob_cancer,X_test,y_test)
+#Out[44]: 0.34965034965034963
 
 
 
