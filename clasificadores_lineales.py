@@ -347,8 +347,8 @@ class Clasificador_Perceptron():
         if(self.normalizacion==True):
             #Comprobamos que haya una normalizacion anterior 
             if( (type(self.mean) is type(None)) or reiniciar_pesos):
-                self.mean = entr.mean(axis=0)
-                self.std = entr.std(axis=0)
+                self.mean = (np.array(entr)).mean(axis=0)
+                self.std = (np.array(entr)).std(axis=0)
             an = (entr-self.mean)/self.std
         else:
             an = entr
@@ -419,6 +419,7 @@ class Clasificador_RL_ML_Batch():
         self.pesos = None
         self.mean = None
         self.entrenado = True
+        
     def entrena(self,entr,clas_entr,n_epochs,
                 reiniciar_pesos=False,pesos_iniciales=None):
         self.entrenado = False        
@@ -427,8 +428,8 @@ class Clasificador_RL_ML_Batch():
         if(self.normalizacion==True):
             #Comprobamos que haya una normalizacion anterior 
             if( (type(self.mean) is type(None)) or reiniciar_pesos):
-                self.mean = entr.mean(axis=0)
-                self.std = entr.std(axis=0)
+                self.mean = (np.array(entr)).mean(axis=0)
+                self.std = (np.array(entr)).std(axis=0)
             an = (entr-self.mean)/self.std
         else:
             an = entr
@@ -534,8 +535,8 @@ class Clasificador_RL_ML_St():
         if(self.normalizacion==True):
             #Comprobamos que haya una normalizacion anterior 
             if( (type(self.mean) is type(None)) or reiniciar_pesos):
-                self.mean = entr.mean(axis=0)
-                self.std = entr.std(axis=0)
+                self.mean = (np.array(entr)).mean(axis=0)
+                self.std = (np.array(entr)).std(axis=0)
             an = (entr-self.mean)/self.std
         else:
             an = entr
@@ -647,8 +648,8 @@ class Clasificador_RL_ML_MiniBatch():
         if(self.normalizacion==True):
             #Comprobamos que haya una normalizacion anterior 
             if( (type(self.mean) is type(None)) or reiniciar_pesos):
-                self.mean = entr.mean(axis=0)
-                self.std = entr.std(axis=0)
+                self.mean = (np.array(entr)).mean(axis=0)
+                self.std = (np.array(entr)).std(axis=0)
             an = (entr-self.mean)/self.std
         else:
             an = entr
@@ -1194,78 +1195,69 @@ def votos_clasi(clasi):
 	
 
 # ----------------------------------------------------------------
-
-#from votos import *
-#
-#y = votos_clasi(votos_entr_clas)
-#
-#prob_votos = Clasificador_RL_ML_Batch(votos_clases)
-#
-#prob_votos.entrena(votos_entr,y,400)
-#
-#rendimiento(prob_votos,votos_test,votos_test_clas)
-#Out[16]: Out[8]: 0.896551724137931
-#
-#
-#
-#
-#prob_votos = Clasificador_RL_ML_St(votos_clases)
-#
-#prob_votos.entrena(votos_entr,y,500)
-#
-#rendimiento(prob_votos,votos_test,votos_test_clas)
-#Out[19]: 0.9080459770114943
+# Predicción de los Votantes del Congreso de EEUU
+# ----------------------------------------------------------------
     
+#from votos import *
+#y = votos_clasi(votos_entr_clas)
+    
+#Regresión Logística Batch
 
+#   prob_votos = Clasificador_RL_ML_Batch(votos_clases,normalizacion=True,rate_decay=True)
+#   prob_votos.entrena(votos_entr,y,300)
+#   rendimiento(prob_votos,votos_test,votos_test_clas)
+#   Out[x]: 0.9425287356321839
 
+#Regresión Logística Estocástico
+    
+#   prob_votos = Clasificador_RL_ML_St(votos_clases,normalizacion=True,rate_decay=True)
+#   prob_votos.entrena(votos_entr,y,200,reiniciar_pesos=True)
+#   rendimiento(prob_votos,votos_test,votos_test_clas)
+#   Out[x]: 0.9310344827586207
 
+# Regresion logísitca MiniBatch
 
-#prob_votos = Clasificador_RL_ML_St(votos_clases)
-#
-#prob_votos.entrena(votos_entr,y,500)
-#
-#rendimiento(prob_votos,votos_test,votos_test_clas)
-#Out[17]: 0.9080459770114943
+#   Clasificador_RL_ML_MiniBatch(votos_clases,normalizacion=True,rate_decay=True)
+#   prob_votos.entrena(votos_entr,y,175)
+#   rendimiento(prob_votos,votos_test,votos_test_clas)
+#   Out[17]: 0.9310344827586207
 
 # ----------------------------------------------------------------
-
+# Predicción del Cáncer de Mama
+# ----------------------------------------------------------------
+    
 #from sklearn.datasets import load_breast_cancer
-#
-#cancer = load_breast_cancer()
-#
 #from sklearn.model_selection import train_test_split
-#
+
+#cancer = load_breast_cancer()
+    
 #X_train, X_test, y_train, y_test = train_test_split(cancer.data, cancer.target, stratify=cancer.target, random_state=0)
-#
-#prob_cancer = Clasificador_RL_ML_Batch([0,1],normalizacion = True)
-#
-#prob_cancer.entrena(X_train,y_train,4000)
-#
-#rendimiento(prob_cancer,X_test,y_test)
-#Out[40]: 0.9300699300699301
 
+# Regresion logísitca Estocástico
+    
+#   prob_cancer = Clasificador_RL_ML_Batch([0,1],normalizacion = True,rate_decay=True)
+#   prob_cancer.entrena(X_train,y_train,1000)
+#   rendimiento(prob_cancer,X_test,y_test)
+#   Out[x]: 0.958041958041958
 
+# Regresion logísitca MiniBatch
 
+#   prob_cancer = Clasificador_RL_ML_MiniBatch([0,1], batch_tam= 75,rate_decay=True)
+#   prob_cancer.entrena(X_train,y_train,55,reiniciar_pesos=True)
+#   rendimiento(prob_cancer,X_test,y_test)
+#   Out[x]: 0.9230769230769231
 
+# Regresion logísitca Batch
 
+#   prob_cancer = Clasificador_RL_ML_Batch([0,1],rate_decay=True,normalizacion=True)
+#   prob_cancer.entrena(X_train,y_train,50,reiniciar_pesos=True)
+#   rendimiento(prob_cancer,X_test,y_test)
+#   Out[x]: 0.951048951048951
 
-
-
-
-#prob_cancer = Clasificador_RL_ML_MiniBatch([0,1],normalizacion = True, batch_tam= 30)
-#
-#prob_cancer.entrena(X_train,y_train,4000)
-#
-#rendimiento(prob_cancer,X_test,y_test)
-#Out[44]: 0.34965034965034963
-
-
-
-
-
-
-
-
+# ----------------------------------------------------------------
+# Predicción de Números Escritos a Mano
+# ----------------------------------------------------------------
+    
 
 
 
