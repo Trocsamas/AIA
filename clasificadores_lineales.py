@@ -417,13 +417,9 @@ class Clasificador_RL_ML_Batch():
         self.pesos = None
         self.mean = None
         self.entrenado = True
-
-    
     def entrena(self,entr,clas_entr,n_epochs,
                 reiniciar_pesos=False,pesos_iniciales=None):
-        
-        self.entrenado = False
-        
+        self.entrenado = False        
         #Normalizacion, se crean atributos de clase para reusar
         #los valores en la clasificacion
         if(self.normalizacion==True):
@@ -462,14 +458,10 @@ class Clasificador_RL_ML_Batch():
             en = (clas_entr-probn)
             
             wn = wn + rate_n*np.sum((en.reshape(len(en),1)*np.concatenate((np.ones((len(an),1)),an),axis=1)),axis=0)
-            
-
-        
         self.pesos = wn
         
-                
-   
     def clasifica_prob(self,ej):
+        
         try:
             
             if self.entrenado:
@@ -482,7 +474,7 @@ class Clasificador_RL_ML_Batch():
             
             w_por_x = ((np.sum(self.pesos[:,1:]*an))+self.pesos[:,:1])
             
-            prob = (1/(1+math.exp(-w_por_x)))
+            prob = 1/(1+np.power(math.e, -w_por_x))
             
             return prob
         
@@ -501,7 +493,7 @@ class Clasificador_RL_ML_Batch():
             
             w_por_x = ((np.sum(self.pesos[:,1:]*an))+self.pesos[:,:1])
             
-            prob = (1/(1+math.exp(-w_por_x)))
+            prob = 1/(1+np.power(math.e, -w_por_x))
             
             if(prob > 0.5):
                 res = self.clases[1]
@@ -590,7 +582,7 @@ class Clasificador_RL_ML_St():
             
             w_por_x = ((np.sum(self.pesos[:,1:]*an))+self.pesos[:,:1])
             
-            prob = (1/(1+math.exp(-w_por_x)))
+            prob = 1/(1+np.power(math.e, -w_por_x))
             
             return prob
         
@@ -611,7 +603,7 @@ class Clasificador_RL_ML_St():
             
             w_por_x = ((np.sum(self.pesos[:,1:]*an))+self.pesos[:,:1])
             
-            prob = (1/(1+math.exp(-w_por_x)))
+            prob = 1/(1+np.power(math.e, -w_por_x))
             
             if(prob > 0.5):
                 res = self.clases[1]
@@ -702,7 +694,7 @@ class Clasificador_RL_ML_MiniBatch():
             
             w_por_x = ((np.sum(self.pesos[:,1:]*an))+self.pesos[:,:1])
             
-            prob = (1/(1+math.exp(-w_por_x)))
+            prob = 1/(1+np.power(math.e, -w_por_x))
             
             return prob
         
@@ -723,7 +715,7 @@ class Clasificador_RL_ML_MiniBatch():
             
             w_por_x = ((np.sum(self.pesos[:,1:]*an))+self.pesos[:,:1])
             
-            prob = (1/(1+math.exp(-w_por_x)))
+            prob = 1/(1+np.power(math.e, -w_por_x))
             
             if(prob > 0.5):
                 res = self.clases[1]
