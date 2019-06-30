@@ -1272,9 +1272,40 @@ def votos_clasi(clasi):
 # Predicción de Números Escritos a Mano
 # ----------------------------------------------------------------
     
+#   Conjunto de Entrenamiento
+#   X = leer_numeros("trainingimages")
+#   Y = leer_clasi_numeros("traininglabels")
 
+#   Conjunto de Test    
+#   X_test = leer_numeros("testimages")
+#   y_test = leer_clasi_numeros("testlabels")
 
+# Regresion logísitca Batch
 
+#   prob_numero = RegresionLogisticaOvR(clases=[0,1,2,3,4,5,6,7,8,9]
+#            ,class_clasif=Clasificador_RL_ML_Batch
+#            ,normalizacion=True,rate_decay=True)
+#   prob_numero.entrena(clas_entr=Y,entr=X,n_epochs=2000,reiniciar_pesos=True)
+#   rendimiento(prob_numero,X_test,y_test)
+#   Out[x]: 0.709
+
+# Regresion logísitca MiniBatch
+
+#   prob_numero = RegresionLogisticaOvR(clases=[0,1,2,3,4,5,6,7,8,9]
+#            ,class_clasif=Clasificador_RL_ML_MiniBatch
+#            ,normalizacion=True,rate_decay=True,batch_tam=30)
+#   prob_numero.entrena(clas_entr=Y,entr=X,n_epochs=2000,reiniciar_pesos=True)
+#   rendimiento(prob_numero,X_test,y_test)
+#   Out[x]: 
+
+# Regresion logísitca Estocástico
+
+#   prob_numero = RegresionLogisticaOvR(clases=[0,1,2,3,4,5,6,7,8,9]
+#            ,class_clasif=Clasificador_RL_ML_St
+#            ,normalizacion=True,rate_decay=True)
+#   prob_numero.entrena(clas_entr=Y,entr=X,n_epochs=2000,reiniciar_pesos=True)
+#   rendimiento(prob_numero,X_test,y_test)
+#   Out[x]: 
 
 
 
