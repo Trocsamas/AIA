@@ -374,9 +374,11 @@ class Clasificador_Perceptron():
             ls_index = np.arange(0,len(an))
             np.random.shuffle(ls_index) 
             for index in ls_index:
-                oum = (((np.sum(wn[:,1:]*an[index]))+wn[:,:1])>=0).astype(int)   
-                wn[:,:1] = wn[:,:1] + rate_n*1*(clas_entr[index] - oum)
-                wn[:,1:] = wn[:,1:] + rate_n*an[index]*(clas_entr[index] - oum)
+                
+                ej = np.concatenate((np.array([1]),an[index]), axis=0)
+                oum = ((np.sum(wn*ej))>=0).astype(int)
+                                
+                wn = wn + rate_n*ej*(clas_entr[index] - oum)
         
         self.pesos = wn
         
@@ -1139,7 +1141,7 @@ def matriz_confusion(clf,X,Y):
 # los votos y del cáncer de mama con un rendimiento sobre el test mayor al
 # 90%, y para los dígitos un rendimiento superior al 80%.
 
-
+#Funciones para el tratamiento previo de datos
 def leer_numeros(fichero):
     
     lista_numeros = []
@@ -1177,3 +1179,15 @@ def leer_clasi_numeros(fichero):
             lista_numeros.append(int(linea[0]))
     
     return lista_numeros
+
+def votos_clasi(clasi):
+    
+    y = []
+    
+    for i in clasi:
+        if i == 'republicano':
+            y.append(0)
+        else:
+            y.append(1)
+            
+    return y
