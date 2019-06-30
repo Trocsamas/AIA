@@ -880,23 +880,6 @@ def graficaerroresporepoch(clasificador,clases,entr,
 # In [34]: clas_rlml1.clasifica(iris_entr[78]),iris_entr_clas[78]
 # Out[34]: ('Iris-versicolor', 'Iris-versicolor')
     
-
-def clasificacion_iris(ejemplos,clasificacion):
-    
-    lista = []
-    
-    for i in clasificacion:
-        if i == 'Iris-setosa':
-            lista.append(0)
-        elif i == 'Iris-versicolor':
-            lista.append(1)
-        else:
-            lista.append(2)
-    
-    y = np.asarray(lista,dtype=np.float64)
-    x = np.asarray(ejemplos,dtype=np.float64)
-    
-    return x,y
 # ----------------------------------------------------------------
 
 
