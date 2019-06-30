@@ -667,7 +667,6 @@ class Clasificador_RL_ML_MiniBatch():
                 rate_n = (self.rate)*(1/(1+n))
             else:
                 rate_n = self.rate
-            
             for n in range(0,math.ceil(len(entr)/self.batch_tam)):
                 batch = entr[self.batch_tam*n:self.batch_tam*(n+1)]
                 clas_batch = clas_entr[self.batch_tam*n:self.batch_tam*(n+1)]
@@ -976,9 +975,8 @@ class RegresionLogisticaOvR():
         for i in range(0,len(self.clases)):
             
             if(self.clasificador == Clasificador_RL_ML_MiniBatch):
-                
-                self.clas_instanciadas['clase'+str(i)] = self.clasificador([0,1],self.rate,
-                                              self.rate_decay,self.batch_tam,self.normalizacion)
+                self.clas_instanciadas['clase'+str(i)] = self.clasificador(
+                        batch_tam=self.batch_tam,clases=[0,1],normalizacion=self.normalizacion,rate=self.rate,rate_decay=self.rate_decay)
             else:
                 self.clas_instanciadas['clase'+str(i)] = self.clasificador([0,1]
                                                     ,self.rate,self.rate_decay,self.normalizacion)
