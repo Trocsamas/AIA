@@ -560,11 +560,12 @@ class Clasificador_RL_ML_St():
             
             for index in ls_index:
                 
-                w_por_x = ((np.sum(wn[:,1:]*an[index]))+wn[:,:1])
-                prob = 1/(1+np.power(math.e, -w_por_x))
+                aindex = np.concatenate((an[index],np.array([1])), axis=0)
+                w_por_x = np.sum(wn*aindex)
+                prob = 1/(1+np.exp(-w_por_x))
                 
-            
-                wn = wn + rate_n*np.concatenate((an[index],np.array([1])), axis=0)*(clas_entr[index] - prob)
+                
+                wn = wn + rate_n*aindex*(clas_entr[index] - prob)
         
         self.pesos = wn
    
@@ -803,7 +804,7 @@ def graficaerroresporepoch(clasificador,clases,entr,
             errores.append(error)
         
     
-    plt.plot(range(1,len(errores)+1),errores,marker='o')
+    plt.plot(range(0,n_epochs),errores,marker='o')
     plt.xlabel('Epochs')
     plt.ylabel('Porcentaje de errores')
     plt.show()
@@ -835,8 +836,7 @@ def graficalogverosimilitud(clasificador,clases,entr,
                                     rate=rate,rate_decay=rate_decay)
         
     log_verosimilitud = []
-    positivos = []
-    negativos = []
+  
     
     for n in range(0,n_epochs):
         if(rate_decay):
@@ -844,25 +844,27 @@ def graficalogverosimilitud(clasificador,clases,entr,
             
         clas.entrena(clas_entr=clas_entr,entr=entr,n_epochs=1)
         
+        positivos = []
+        negativos = [] 
         for x,y in zip(entr,clas_entr):
             
-            if y == clases[0]:
-                w_por_x = ((np.sum(clas.pesos[:,1:]*x))+clas.pesos[:,:1])
-                prob = 1/(1+np.power(math.e, -w_por_x))
-                positivos.append(np.log(prob))
+            aindex = np.concatenate((x,np.array([1])), axis=0)
+            w_por_x = np.sum(clas.pesos*aindex)
+            
+            if y == clases[0]:             
+                prob = 1/(1+np.exp(-w_por_x))
+                positivos = np.append(positivos, np.log(prob))
             else:
-                w_por_x = ((np.sum(clas.pesos[:,1:]*x))+clas.pesos[:,:1])
-                prob = 1 -(1/(1+np.power(math.e, -w_por_x)))
-                negativos.append(np.log(prob))
-        
-        log_verosimilitud.append(-sum(positivos)-sum(negativos))
+                prob = (1/(1+np.exp(-w_por_x)))
+                negativos = np.append(negativos , np.log(prob))
+
+        log_verosimilitud = np.append(log_verosimilitud, -np.sum(positivos)-np.sum(negativos))
     
-    print(log_verosimilitud)
-    
-    plt.plot(range(1,len(log_verosimilitud)+1),log_verosimilitud,marker='o')
+    plt.plot(range(0,n_epochs),log_verosimilitud,marker='o')
     plt.xlabel('Epochs')
     plt.ylabel('log_verosimilitud')
     plt.show()
+    
     
 
 # ==================================
@@ -938,13 +940,14 @@ def graficalogverosimilitud(clasificador,clases,entr,
 class RegresionLogisticaOvR():
     
     def __init__(self,class_clasif,clases,
-                 rate=0.1,rate_decay=False,batch_tam=64):
+                 rate=0.1,rate_decay=False,batch_tam=64,normalizacion=False):
         
         self.clasificador = class_clasif
         self.clases = clases
         self.rate = rate
         self.rate_decay = rate_decay
         self.batch_tam = batch_tam
+        self.normalizacion = normalizacion
         self.clas_instanciadas = dict()
     
     def entrena(self,entr,clas_entr,n_epochs,
@@ -973,10 +976,10 @@ class RegresionLogisticaOvR():
             if(self.clasificador == Clasificador_RL_ML_MiniBatch):
                 
                 self.clas_instanciadas['clase'+str(i)] = self.clasificador([0,1],self.rate,
-                                              self.rate_decay,self.batch_tam)
+                                              self.rate_decay,self.batch_tam,self.normalizacion)
             else:
                 self.clas_instanciadas['clase'+str(i)] = self.clasificador([0,1]
-                                                    ,self.rate,self.rate_decay)
+                                                    ,self.rate,self.rate_decay,self.normalizacion)
             
             #print(clasifs['clase'+str(i)])
             self.clas_instanciadas['clase'+str(i)].entrena(entr,clasifs['clase'+str(i)]
