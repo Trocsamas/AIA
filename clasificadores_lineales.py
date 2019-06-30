@@ -1201,6 +1201,13 @@ def votos_clasi(clasi):
 #from votos import *
 #y = votos_clasi(votos_entr_clas)
     
+#Perceptrón umbral
+
+#   prob_votos = Clasificador_Perceptron(votos_clases,normalizacion=True)
+#   prob_votos.entrena(votos_entr,y,175,reiniciar_pesos= True)
+#   rendimiento(prob_votos,votos_test,votos_test_clas)
+#   Out[x]: 0.896551724137931
+    
 #Regresión Logística Batch
 
 #   prob_votos = Clasificador_RL_ML_Batch(votos_clases,normalizacion=True,rate_decay=True)
@@ -1232,6 +1239,13 @@ def votos_clasi(clasi):
 #cancer = load_breast_cancer()
     
 #X_train, X_test, y_train, y_test = train_test_split(cancer.data, cancer.target, stratify=cancer.target, random_state=0)
+    
+#Perceptrón umbral
+
+#   prob_cancer = Clasificador_Perceptron([0,1],normalizacion = True,rate_decay=True)
+#   prob_cancer.entrena(X_train,y_train,380,reiniciar_pesos=True)
+#   rendimiento(prob_cancer,X_test,y_test)
+#   Out[x]: 0.951048951048951
 
 # Regresion logísitca Estocástico
     
