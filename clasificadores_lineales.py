@@ -560,10 +560,12 @@ class Clasificador_RL_ML_St():
             
             for index in ls_index:
                 
-                aindex = np.concatenate((an[index],np.array([1])), axis=0)
+            
+              
+                
+                aindex = np.concatenate((np.array([1]),an[index]), axis=0)
                 w_por_x = np.sum(wn*aindex)
                 prob = 1/(1+np.exp(-w_por_x))
-                
                 
                 wn = wn + rate_n*aindex*(clas_entr[index] - prob)
         
