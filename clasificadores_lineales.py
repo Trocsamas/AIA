@@ -561,10 +561,10 @@ class Clasificador_RL_ML_St():
             for index in ls_index:
                 
                 w_por_x = ((np.sum(wn[:,1:]*an[index]))+wn[:,:1])
-                prob = 1/(1+math.exp(-w_por_x))
+                prob = 1/(1+np.power(math.e, -w_por_x))
                 
-                wn[:,:1] = wn[:,:1] + rate_n*(clas_entr[index] - prob)
-                wn[:,1:] = wn[:,1:] + rate_n*an[index]*(clas_entr[index] - prob)
+            
+                wn = wn + rate_n*np.concatenate((an[index],np.array([1])), axis=0)*(clas_entr[index] - prob)
         
         self.pesos = wn
    
@@ -664,9 +664,6 @@ class Clasificador_RL_ML_MiniBatch():
                 rate_n = (self.rate)*(1/(1+n))
             else:
                 rate_n = self.rate
-            
-            ls_index = np.arange(0,len(an))
-            np.random.shuffle(ls_index)
             
             for n in range(0,math.ceil(len(entr)/self.batch_tam)):
                 batch = entr[self.batch_tam*n:self.batch_tam*(n+1)]
