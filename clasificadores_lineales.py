@@ -1140,10 +1140,40 @@ def matriz_confusion(clf,X,Y):
 # 90%, y para los dígitos un rendimiento superior al 80%.
 
 
-def votos_perceptron(votos_clases,votos_entr,votos_entr_clas):
+def leer_numeros(fichero):
     
-    pass
+    lista_numeros = []
+    n = 0
+    numero = []
+    res = []
+    
+    with open(fichero) as lineas:
+        for linea in lineas:
+            n+=1
+            numero.append(linea[:28])
+            if(n%28==0):
+                lista_numeros.append(numero[:])
+                numero.clear()
+    res = []
+    for num in lista_numeros:
+        lsnumero = []
+        for linea in num:
+            for char in linea:
+                if char == " " : 
+                    lsnumero.append(0)
+                elif char == "+" :
+                    lsnumero.append(0.5)
+                elif char == "#" :
+                    lsnumero.append(1)
+        res.append(lsnumero)
+                    
+    return np.array(res)
 
-
-
-
+def leer_clasi_numeros(fichero):
+    lista_numeros = []
+    
+    with open(fichero) as lineas:
+        for linea in lineas:
+            lista_numeros.append(int(linea[0]))
+    
+    return lista_numeros
