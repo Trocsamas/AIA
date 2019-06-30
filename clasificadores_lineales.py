@@ -962,7 +962,7 @@ class RegresionLogisticaOvR():
         prob = []
         
         for i in range(0,len(self.clases)):
-            prob.append(self.clas_instanciadas['clase'+str(i)].clasifica(ej))
+            prob.append(self.clas_instanciadas['clase'+str(i)].clasifica_prob(ej))
         
         prob_max = max(prob)
         
