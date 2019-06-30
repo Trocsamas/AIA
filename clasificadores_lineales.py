@@ -797,7 +797,7 @@ def graficaerroresporepoch(clasificador,clases,entr,
                                     rate=rate,rate_decay=rate_decay)
     
     errores = []
-    for n in range(1,n_epochs+1):
+    for n in range(0,n_epochs):
             if(rate_decay):
                 clas.rate = rate*(1/(1+n))
             
@@ -812,6 +812,61 @@ def graficaerroresporepoch(clasificador,clases,entr,
     plt.show()
 
 
+
+
+def graficalogverosimilitud(clasificador,clases,entr,
+                           clas_entr,n_epochs,
+                           rate=0.1,
+                           rate_decay=False,
+                           normalizacion=False,
+                           batch=64):
+    
+    if (clasificador is Clasificador_RL_ML_MiniBatch):
+        clas=Clasificador_RL_ML_MiniBatch(clases,normalizacion=normalizacion,
+                                    rate=rate,rate_decay=rate_decay,batch_tam=batch)
+        
+    elif (clasificador is Clasificador_Perceptron):
+        clas=Clasificador_Perceptron(clases,normalizacion=normalizacion,
+                                    rate=rate,rate_decay=rate_decay)
+        
+    elif (clasificador is Clasificador_RL_ML_Batch):
+        clas=Clasificador_RL_ML_Batch(clases,normalizacion=normalizacion,
+                                    rate=rate,rate_decay=rate_decay)
+        
+    elif (clasificador is Clasificador_RL_ML_St):
+        clas=Clasificador_RL_ML_St(clases,normalizacion=normalizacion,
+                                    rate=rate,rate_decay=rate_decay)
+        
+    log_verosimilitud = []
+    positivos = []
+    negativos = []
+    
+    for n in range(0,n_epochs):
+        if(rate_decay):
+                clas.rate = rate*(1/(1+n))
+            
+        clas.entrena(clas_entr=clas_entr,entr=entr,n_epochs=1)
+        
+        for x,y in zip(entr,clas_entr):
+            
+            if y == clases[0]:
+                w_por_x = ((np.sum(clas.pesos[:,1:]*x))+clas.pesos[:,:1])
+                prob = 1/(1+np.power(math.e, -w_por_x))
+                positivos.append(np.log(prob))
+            else:
+                w_por_x = ((np.sum(clas.pesos[:,1:]*x))+clas.pesos[:,:1])
+                prob = 1 -(1/(1+np.power(math.e, -w_por_x)))
+                negativos.append(np.log(prob))
+        
+        log_verosimilitud.append(-sum(positivos)-sum(negativos))
+    
+    print(log_verosimilitud)
+    
+    plt.plot(range(1,len(log_verosimilitud)+1),log_verosimilitud,marker='o')
+    plt.xlabel('Epochs')
+    plt.ylabel('log_verosimilitud')
+    plt.show()
+    
 
 # ==================================
 # PARTE II: CLASIFICACIÓN MULTICLASE
