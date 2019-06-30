@@ -334,11 +334,16 @@ class Clasificador_Perceptron():
         self.rate_decay = rate_decay
         self.pesos = None
         self.mean = None
+        self.entrenado = True
     
     def entrena(self,entr,clas_entr,n_epochs,
                 reiniciar_pesos=False,pesos_iniciales=None):
         #Normalizacion, se crean atributos de clase para reusar
         #los valores en la clasificacion
+        
+        self.entrenado = False
+
+        
         if(self.normalizacion==True):
             #Comprobamos que haya una normalizacion anterior 
             if( (type(self.mean) is type(None)) or reiniciar_pesos):
@@ -377,18 +382,25 @@ class Clasificador_Perceptron():
         
     def clasifica(self,ej):
         
-        #Normalizacion con los valores del entrenamiento
-        if(self.normalizacion==True):
-            an = (ej-self.mean)/self.std
-        else:
-            an = ej
-            
-        oum = (((np.sum(self.pesos[:,1:]*an))+self.pesos[:,:1])>=0)
-        if(oum):
-            res = self.clases[1]
-        else:
-            res = self.clases[0]
-        return res
+        try:
+            if self.entrenado:
+                raise ClasificadorNoEntrenado
+    
+            #Normalizacion con los valores del entrenamiento
+            if(self.normalizacion==True):
+                an = (ej-self.mean)/self.std
+            else:
+                an = ej
+                    
+            oum = (((np.sum(self.pesos[:,1:]*an))+self.pesos[:,:1])>=0)
+            if(oum):
+                res = self.clases[1]
+            else:
+                res = self.clases[0]
+            return res
+        
+        except ClasificadorNoEntrenado:
+            print("El clasificador debe ser entrenado")
     
 
 # ----------------------------------------------------------------
@@ -404,10 +416,13 @@ class Clasificador_RL_ML_Batch():
         self.rate_decay = rate_decay
         self.pesos = None
         self.mean = None
+        self.entrenado = True
 
     
     def entrena(self,entr,clas_entr,n_epochs,
                 reiniciar_pesos=False,pesos_iniciales=None):
+        
+        self.entrenado = False
         
         #Normalizacion, se crean atributos de clase para reusar
         #los valores en la clasificacion
@@ -455,35 +470,48 @@ class Clasificador_RL_ML_Batch():
                 
    
     def clasifica_prob(self,ej):
+        try:
+            
+            if self.entrenado:
+                raise ClasificadorNoEntrenado
         
-        if(self.normalizacion==True):
-            an = (ej-self.mean)/self.std
-        else:
-            an = ej
+            if(self.normalizacion==True):
+                an = (ej-self.mean)/self.std
+            else:
+                an = ej
+            
+            w_por_x = ((np.sum(self.pesos[:,1:]*an))+self.pesos[:,:1])
+            
+            prob = (1/(1+math.exp(-w_por_x)))
+            
+            return prob
         
-        w_por_x = ((np.sum(self.pesos[:,1:]*an))+self.pesos[:,:1])
-        
-        prob = (1/(1+math.exp(-w_por_x)))
-        
-        return prob
+        except ClasificadorNoEntrenado:
+            print("El clasificador debe ser entrenado")
         
     def clasifica(self,ej):
+        try:
+            if self.entrenado:
+                raise ClasificadorNoEntrenado
         
-        if(self.normalizacion==True):
-            an = (ej-self.mean)/self.std
-        else:
-            an = ej
+            if(self.normalizacion==True):
+                an = (ej-self.mean)/self.std
+            else:
+                an = ej
+            
+            w_por_x = ((np.sum(self.pesos[:,1:]*an))+self.pesos[:,:1])
+            
+            prob = (1/(1+math.exp(-w_por_x)))
+            
+            if(prob > 0.5):
+                res = self.clases[1]
+            else:
+                res = self.clases[0]
+            
+            return res
         
-        w_por_x = ((np.sum(self.pesos[:,1:]*an))+self.pesos[:,:1])
-        
-        prob = (1/(1+math.exp(-w_por_x)))
-        
-        if(prob > 0.5):
-            res = self.clases[1]
-        else:
-            res = self.clases[0]
-        
-        return res
+        except ClasificadorNoEntrenado:
+            print("El clasificador debe ser entrenado")
 
 
 # ----------------------------------------------------------------
@@ -499,10 +527,13 @@ class Clasificador_RL_ML_St():
         self.rate_decay = rate_decay
         self.pesos = None
         self.mean = None
+        self.entrenado = True
 
 
     def entrena(self,entr,clas_entr,n_epochs,
                 reiniciar_pesos=False,pesos_iniciales=None):
+        
+        self.entrenado = False
         
         #Normalizacion, se crean atributos de clase para reusar
         #los valores en la clasificacion
@@ -547,34 +578,50 @@ class Clasificador_RL_ML_St():
    
     def clasifica_prob(self,ej):
         
-        if(self.normalizacion==True):
-            an = (ej-self.mean)/self.std
-        else:
-            an = ej
+        try:
+            
+            if self.entrenado:
+                raise ClasificadorNoEntrenado
         
-        w_por_x = ((np.sum(self.pesos[:,1:]*an))+self.pesos[:,:1])
+            if(self.normalizacion==True):
+                an = (ej-self.mean)/self.std
+            else:
+                an = ej
+            
+            w_por_x = ((np.sum(self.pesos[:,1:]*an))+self.pesos[:,:1])
+            
+            prob = (1/(1+math.exp(-w_por_x)))
+            
+            return prob
         
-        prob = (1/(1+math.exp(-w_por_x)))
-        
-        return prob
+        except ClasificadorNoEntrenado:
+            print("El clasificador debe ser entrenado")
         
     def clasifica(self,ej):
         
-        if(self.normalizacion==True):
-            an = (ej-self.mean)/self.std
-        else:
-            an = ej
+        try:
+            
+            if self.entrenado:
+                raise ClasificadorNoEntrenado
         
-        w_por_x = ((np.sum(self.pesos[:,1:]*an))+self.pesos[:,:1])
+            if(self.normalizacion==True):
+                an = (ej-self.mean)/self.std
+            else:
+                an = ej
+            
+            w_por_x = ((np.sum(self.pesos[:,1:]*an))+self.pesos[:,:1])
+            
+            prob = (1/(1+math.exp(-w_por_x)))
+            
+            if(prob > 0.5):
+                res = self.clases[1]
+            else:
+                res = self.clases[0]
+            
+            return res
         
-        prob = (1/(1+math.exp(-w_por_x)))
-        
-        if(prob > 0.5):
-            res = self.clases[1]
-        else:
-            res = self.clases[0]
-        
-        return res
+        except ClasificadorNoEntrenado:
+            print("El clasificador debe ser entrenado")
 
 # ----------------------------------------------------------------
 
@@ -590,10 +637,13 @@ class Clasificador_RL_ML_MiniBatch():
         self.batch_tam = batch_tam
         self.pesos = None
         self.mean = None
+        self.entrenado = True
 
     
     def entrena(self,entr,clas_entr,n_epochs,
                 reiniciar_pesos=False,pesos_iniciales=None):
+        
+        self.entrenado = False
         
         #Normalizacion, se crean atributos de clase para reusar
         #los valores en la clasificacion
@@ -637,44 +687,53 @@ class Clasificador_RL_ML_MiniBatch():
                 wn = wn + rate_n*np.sum((en.reshape(len(en),1)*np.concatenate((np.ones((len(batch),1)),batch),axis=1)),axis=0)
         self.pesos = wn
 
-            
-            
-            
-            
    
     def clasifica_prob(self,ej):
         
-        if(self.normalizacion==True):
-            an = (ej-self.mean)/self.std
-        else:
-            an = ej
+        try:
+            
+            if self.entrenado:
+                raise ClasificadorNoEntrenado
         
-        w_por_x = ((np.sum(self.pesos[:,1:]*an))+self.pesos[:,:1])
+            if(self.normalizacion==True):
+                an = (ej-self.mean)/self.std
+            else:
+                an = ej
+            
+            w_por_x = ((np.sum(self.pesos[:,1:]*an))+self.pesos[:,:1])
+            
+            prob = (1/(1+math.exp(-w_por_x)))
+            
+            return prob
         
-        prob = (1/(1+math.exp(-w_por_x)))
-        
-        return prob
+        except ClasificadorNoEntrenado:
+            print("El clasificador debe ser entrenado")
         
     def clasifica(self,ej):
         
-        if(self.normalizacion==True):
-            an = (ej-self.mean)/self.std
-        else:
-            an = ej
+        try:
+            
+            if self.entrenado:
+                raise ClasificadorNoEntrenado
         
-        w_por_x = ((np.sum(self.pesos[:,1:]*an))+self.pesos[:,:1])
+            if(self.normalizacion==True):
+                an = (ej-self.mean)/self.std
+            else:
+                an = ej
+            
+            w_por_x = ((np.sum(self.pesos[:,1:]*an))+self.pesos[:,:1])
+            
+            prob = (1/(1+math.exp(-w_por_x)))
+            
+            if(prob > 0.5):
+                res = self.clases[1]
+            else:
+                res = self.clases[0]
+            
+            return res
         
-        prob = (1/(1+math.exp(-w_por_x)))
-        
-        if(prob > 0.5):
-            res = self.clases[1]
-        else:
-            res = self.clases[0]
-        
-        return res
-
-
-    
+        except ClasificadorNoEntrenado:
+            print("El clasificador debe ser entrenado")
 
 # --------------------------
 # I.3. Curvas de aprendizaje
@@ -828,6 +887,24 @@ def graficaerroresporepoch(clasificador,clases,entr,
 
 # In [34]: clas_rlml1.clasifica(iris_entr[78]),iris_entr_clas[78]
 # Out[34]: ('Iris-versicolor', 'Iris-versicolor')
+    
+
+def clasificacion_iris(ejemplos,clasificacion):
+    
+    lista = []
+    
+    for i in clasificacion:
+        if i == 'Iris-setosa':
+            lista.append(0)
+        elif i == 'Iris-versicolor':
+            lista.append(1)
+        else:
+            lista.append(2)
+    
+    y = np.asarray(lista,dtype=np.float64)
+    x = np.asarray(ejemplos,dtype=np.float64)
+    
+    return x,y
 # ----------------------------------------------------------------
 
 
@@ -874,9 +951,9 @@ class RegresionLogisticaOvR():
                 self.clas_instanciadas['clase'+str(i)] = self.clasificador([0,1]
                                                     ,self.rate,self.rate_decay)
             
-            print(clasifs['clase'+str(i)])
-            #self.clas_instanciadas['clase'+str(i)].entrena(entr,clasifs['clase'+str(i)]
-                                   #,n_epochs,reiniciar_pesos,pesos_iniciales)
+            #print(clasifs['clase'+str(i)])
+            self.clas_instanciadas['clase'+str(i)].entrena(entr,clasifs['clase'+str(i)]
+                                   ,n_epochs,reiniciar_pesos,pesos_iniciales)
                 
                 
      
@@ -1031,3 +1108,12 @@ def matriz_confusion(clf,X,Y):
 # Por dar una referencia, se pueden obtener clasificadores para el problema de
 # los votos y del cáncer de mama con un rendimiento sobre el test mayor al
 # 90%, y para los dígitos un rendimiento superior al 80%.
+
+
+def votos_perceptron(votos_clases,votos_entr,votos_entr_clas):
+    
+    pass
+
+
+
+
