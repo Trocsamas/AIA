@@ -1299,6 +1299,8 @@ def votos_clasi(clasi):
 #cancer = load_breast_cancer()
     
 #X_train, X_test, y_train, y_test = train_test_split(cancer.data, cancer.target, stratify=cancer.target, random_state=0)
+
+#X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, stratify=y_train, random_state=0)
     
 #Perceptrón umbral
 
@@ -1339,6 +1341,10 @@ def votos_clasi(clasi):
 #   X = leer_numeros("trainingimages")
 #   Y = leer_clasi_numeros("traininglabels")
 
+#   Conjunto de Validación
+#   X_val = leer_numeros("validationimages")
+#   Y_val = leer_clasi_numeros("validationlabels")
+
 #   Conjunto de Test    
 #   X_test = leer_numeros("testimages")
 #   y_test = leer_clasi_numeros("testlabels")
@@ -1374,5 +1380,29 @@ def votos_clasi(clasi):
 
 #En este caso, el clasificador que escogeríamos sería el Estocástico,
 #que nos ha dado un porcentaje de acierto del 81,7%
+
+#La matriz de confusión del clasificador Estocástico, sería la siguiente:
+
+#--------------------------------------------------------------
+#| 84.0 | 1.0 | 0.0 | 0.0 | 0.0 | 3.0 | 0.0 | 2.0 | 1.0 | 0.0 | 
+#---------------------------------------------------------------
+#| 0.0 | 103.0 | 2.0 | 0.0 | 0.0 | 0.0 | 1.0 | 3.0 | 3.0 | 0.0 | 
+#--------------------------------------------------------------
+#| 2.0 | 0.0 | 78.0 | 2.0 | 1.0 | 0.0 | 1.0 | 2.0 | 4.0 | 2.0 | 
+#--------------------------------------------------------------
+#| 0.0 | 0.0 | 5.0 | 80.0 | 0.0 | 3.0 | 0.0 | 2.0 | 8.0 | 5.0 | 
+#--------------------------------------------------------------
+#| 0.0 | 2.0 | 0.0 | 0.0 | 94.0 | 0.0 | 3.0 | 5.0 | 4.0 | 8.0 | 
+#--------------------------------------------------------------
+#| 1.0 | 2.0 | 1.0 | 3.0 | 0.0 | 70.0 | 2.0 | 0.0 | 5.0 | 3.0 | 
+#--------------------------------------------------------------
+#| 1.0 | 0.0 | 6.0 | 0.0 | 4.0 | 4.0 | 78.0 | 0.0 | 1.0 | 0.0 | 
+#--------------------------------------------------------------
+#| 0.0 | 0.0 | 4.0 | 7.0 | 2.0 | 1.0 | 2.0 | 83.0 | 1.0 | 6.0 | 
+#---------------------------------------------------------------
+#| 1.0 | 0.0 | 6.0 | 3.0 | 1.0 | 10.0 | 4.0 | 1.0 | 71.0 | 0.0 | 
+#---------------------------------------------------------------
+#| 1.0 | 0.0 | 1.0 | 5.0 | 5.0 | 1.0 | 0.0 | 8.0 | 5.0 | 76.0 | 
+#--------------------------------------------------------------
 
 
