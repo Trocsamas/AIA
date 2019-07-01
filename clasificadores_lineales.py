@@ -1195,6 +1195,63 @@ def votos_clasi(clasi):
 	
 
 # ----------------------------------------------------------------
+# Gráficas de Aprendizaje
+# ----------------------------------------------------------------
+
+# >>>>>>>>>>>>>>>>>>>>>>>
+# Errores frente a epochs
+# >>>>>>>>>>>>>>>>>>>>>>>
+
+#   Perceptrón umbral
+
+#       graficaerroresporepoch(clas_entr=Y1e,clases=[0,1]
+#           ,clasificador=Clasificador_Perceptron,entr=X1e
+#           ,n_epochs=20,rate=0.1,rate_decay=True)
+    
+#   Regresión Logística Batch
+
+#       graficaerroresporepoch(clas_entr=Y1e,clases=[0,1]
+#           ,clasificador=Clasificador_RL_ML_Batch
+#           ,entr=X1e,n_epochs=50,rate=0.1,rate_decay=True)
+    
+#   Regresión Logística Estocástico
+
+#       graficaerroresporepoch(clas_entr=Y1e,clases=[0,1]
+#           ,clasificador=Clasificador_RL_ML_St
+#           ,entr=X1e,n_epochs=75,rate=0.1,rate_decay=True,normalizacion=True)
+    
+#   Regresion logísitca MiniBatch
+
+#       graficaerroresporepoch(clas_entr=Y1e,clases=[0,1]
+#           ,clasificador=Clasificador_RL_ML_MiniBatch
+#           ,entr=X1e,n_epochs=20,rate=0.1,rate_decay=True,normalizacion=True,batch=30)
+
+
+# >>>>>>>>>>>>>>>>>>>>>>>
+# Log-Verosimilitud frente a epochs
+# >>>>>>>>>>>>>>>>>>>>>>>
+    
+#   Regresión Logística Batch
+
+#       graficalogverosimilitud(clas_entr=Y1e,clases=[0,1]
+#           ,clasificador=Clasificador_RL_ML_Batch
+#           ,entr=X1e,n_epochs=50,rate=0.1,normalizacion=True)
+    
+#   Regresión Logística Estocástico
+
+#       graficalogverosimilitud(clas_entr=Y1e,clases=[0,1]
+#           ,clasificador=Clasificador_RL_ML_St
+#           ,entr=X1e,n_epochs=75,rate=0.1,rate_decay=True,normalizacion=True)
+
+    
+#   Regresion logísitca MiniBatch
+
+#       graficalogverosimilitud(clas_entr=Y1e,clases=[0,1]
+#           ,clasificador=Clasificador_RL_ML_MiniBatch
+#           ,entr=X1e,n_epochs=50,rate=0.1,normalizacion=True,rate_decay=True)
+
+
+# ----------------------------------------------------------------
 # Predicción de los Votantes del Congreso de EEUU
 # ----------------------------------------------------------------
     
@@ -1228,6 +1285,9 @@ def votos_clasi(clasi):
 #   prob_votos.entrena(votos_entr,y,175)
 #   rendimiento(prob_votos,votos_test,votos_test_clas)
 #   Out[17]: 0.9310344827586207
+
+#En este caso, el clasificador que escogeríamos sería el Batch,
+#que nos ha dado un porcentaje de acierto del 94,25%
 
 # ----------------------------------------------------------------
 # Predicción del Cáncer de Mama
@@ -1268,6 +1328,9 @@ def votos_clasi(clasi):
 #   rendimiento(prob_cancer,X_test,y_test)
 #   Out[x]: 0.951048951048951
 
+#En este caso, el clasificador que escogeríamos sería el Estocástico,
+#que nos ha dado un porcentaje de acierto del 95,8%
+
 # ----------------------------------------------------------------
 # Predicción de Números Escritos a Mano
 # ----------------------------------------------------------------
@@ -1283,20 +1346,21 @@ def votos_clasi(clasi):
 # Regresion logísitca Batch
 
 #   prob_numero = RegresionLogisticaOvR(clases=[0,1,2,3,4,5,6,7,8,9]
-#            ,class_clasif=Clasificador_RL_ML_Batch
-#            ,normalizacion=True,rate_decay=True)
+#           ,class_clasif=Clasificador_RL_ML_Batch,rate_decay=True)
 #   prob_numero.entrena(clas_entr=Y,entr=X,n_epochs=2000,reiniciar_pesos=True)
 #   rendimiento(prob_numero,X_test,y_test)
-#   Out[x]: 0.709
+#   Out[x]: 0.797
+#   matriz_confusion(X=X_test,Y=y_test,clf=prob_numero)
+
 
 # Regresion logísitca MiniBatch
 
 #   prob_numero = RegresionLogisticaOvR(clases=[0,1,2,3,4,5,6,7,8,9]
-#            ,class_clasif=Clasificador_RL_ML_MiniBatch
-#            ,normalizacion=True,rate_decay=True,batch_tam=30)
+#            ,class_clasif=Clasificador_RL_ML_MiniBatch,rate=0.01,batch_tam=30)
 #   prob_numero.entrena(clas_entr=Y,entr=X,n_epochs=2000,reiniciar_pesos=True)
 #   rendimiento(prob_numero,X_test,y_test)
-#   Out[x]: 
+#   Out[x]: 0.808
+#   matriz_confusion(X=X_test,Y=y_test,clf=prob_numero)
 
 # Regresion logísitca Estocástico
 
@@ -1305,8 +1369,10 @@ def votos_clasi(clasi):
 #            ,normalizacion=True,rate_decay=True)
 #   prob_numero.entrena(clas_entr=Y,entr=X,n_epochs=2000,reiniciar_pesos=True)
 #   rendimiento(prob_numero,X_test,y_test)
-#   Out[x]: 
+#   Out[x]: 0.817 
+#   matriz_confusion(X=X_test,Y=y_test,clf=prob_numero)
 
-
+#En este caso, el clasificador que escogeríamos sería el Estocástico,
+#que nos ha dado un porcentaje de acierto del 81,7%
 
 
